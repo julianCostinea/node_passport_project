@@ -21,6 +21,23 @@ app.set('view engine', 'ejs');
 //bodyparser is now included in express
 app.use(express.urlencoded({extended: false}));
 
+//Express session
+app.use(session({
+    secret: 'secret',
+    resave: true,
+    saveUninitialized: true
+  }));
+
+//connect flash
+app.use(flash());
+
+//Global Vars for different colors
+app.use((req, res, next)=>{
+    res.locals.success_msg = req.flash('success_msg');
+    res.locals.error_msg = req.flash('error');
+    next();
+});
+
 //Routes
 const indexRoutes = require('./routes/index');
 const userRoutes = require('./routes/users');
